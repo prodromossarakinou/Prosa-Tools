@@ -91,3 +91,9 @@ For each meaningful feature:
 - Leave explicit TODOs for deferred decisions
 - Do not prebuild speculative abstractions
 - Keep the app usable at every step
+
+## 11) Challenge Tracking Discipline
+
+- This repository is part of the 100 Days Challenge and uses `_progress` for commit-backed tracking.
+- For each meaningful commit, add one English markdown entry under `_progress/<YYYY-MM>/`.
+- Do not use `progress/` or other folders for challenge progress logs.

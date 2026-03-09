@@ -1,80 +1,121 @@
-# Prosa's AI Tools
+# 100 Days Challenge — AI-Assisted Software Delivery
 
-A modular Next.js platform for building and shipping multiple AI-powered tools over time.
-This is part of the **100 Days with AI** challenge.
+Copyright © 2026 Prodromos Sarakinou. All rights reserved.
 
-## Current Stack
+Owner: Prodromos Sarakinou  
+Project Management: Michael  
+UI/UX Lead: Alexander
 
-- Frontend: Next.js (App Router, SSR-first)
-- Backend: Next.js Route Handlers (API layer for third-party integrations)
-- Database: PostgreSQL (when needed, not wired yet)
-- Language: TypeScript
-- Styling: Tailwind CSS v4
+This repository is part of the **100 Days Challenge** model.
+The challenge focuses on continuous, daily, measurable delivery using AI-assisted development, strict documentation discipline, and structured progress tracking.
 
-## Project Structure
+## Challenge Day Progress
 
-```text
-src
-├── app
-│   ├── api
-│   │   ├── health/route.ts
-│   │   ├── integrations/route.ts
-│   │   ├── qr/generate/route.ts
-│   │   ├── qr/read/route.ts
-│   │   └── webp-to-png/route.ts
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
-├── components
-│   ├── layout
-│   └── providers
-├── features
-│   └── tools
-│       ├── qr-generator-reader
-│       │   ├── components
-│       │   └── lib
-│       ├── webp-to-png
-│       │   ├── components
-│       │   └── lib
-│       └── shared
-│           ├── components
-│           ├── data
-│           └── types.ts
-└── lib
-    ├── config
-    └── server
-```
+Start Date: 09-03-2026  
+Challenge Length: 100 days
 
-## Architecture Guidelines
+Current Day: Day 1 / 100 (09-03-2026)
 
-- Keep `app/` focused on routing and page composition only.
-- Put reusable UI in `src/components`.
-- Put feature-specific UI and domain logic in `src/features/<feature>`.
-- For tools, keep one folder per tool under `src/features/tools/<tool-name>` (e.g. `qr-generator-reader`, `webp-to-png`).
-- Keep shared multi-tool code under `src/features/tools/shared`.
-- Put server-only utilities in `src/lib/server`.
-- Use route handlers in `src/app/api/*` as stable integration entry points.
-- Prefer server components by default; use client components only when interactivity requires it.
-- Introduce providers in `src/components/providers/app-providers.tsx` and keep them centralized.
+Status: ACTIVE
 
-## Backend Direction
+## Tracking Rules
 
-- `/api/health` is a basic operational check endpoint.
-- `/api/integrations` is the entry point placeholder for third-party connectors.
-- `/api/webp-to-png` performs free, server-side WebP to PNG conversion.
-- `/api/qr/generate` creates QR PNG files from text input.
-- `/api/qr/read` decodes QR values from uploaded images.
-- When integrations grow, add provider modules under a dedicated server folder (for example `src/server/integrations`).
+- Each calendar day must produce at least one meaningful commit.
+- Each meaningful commit must have a `_progress/<year-month>/<entry>.md` log file.
+- Progress is tracked only under `_progress` for this project.
 
-## Scripts
+## Day Log
 
-- `npm run dev`: run local development server
-- `npm run lint`: run lint checks
-- `npm run build`: production build validation
-- `npm run start`: run production server
+- Day 1 — Project initialization completed. Next.js baseline architecture, shared app shell, provider baseline, initial tools, and API-first backend flow are active.
 
-## Next Steps
+## Challenge Model
 
-1. Define a PostgreSQL strategy (Prisma or Drizzle) once persistent data is needed.
-2. Add auth and analytics providers in `app-providers.tsx`.
-3. Add integration adapters under `/api/integrations` when external providers are introduced.
+Duration: 100 consecutive days  
+Rule: Every day must produce measurable, documented progress.
+
+Valid daily progress includes:
+
+- Feature delivery
+- Bug fixes
+- Refactors with behavioral impact
+- UI/UX improvements
+- Build and dependency stabilization
+- Architecture and infrastructure work
+- Performance improvements
+- Documentation and runbooks
+- Progress records
+
+Progress must be commit-backed and logged.
+
+## Project Scope Model
+
+This repository is one project under the challenge and currently focuses on an AI tools platform.
+
+Current scope includes:
+
+- Image and utility tools under one shared application
+- SSR-first frontend with Next.js App Router
+- Backend route handlers for internal utilities and future integrations
+- Scalable per-tool feature architecture
+
+Each project in the challenge must maintain its own:
+
+- README
+- Scope
+- Acceptance criteria
+- Progress history
+
+## Technology Approach (This Project)
+
+- Next.js 16 (App Router, SSR-first)
+- TypeScript
+- Tailwind CSS v4
+- Next.js Route Handlers for backend endpoints
+- PostgreSQL when persistence is needed (not mandatory from day 1)
+- AI-assisted development workflow
+
+Architecture and technical implementation can differ from other challenge projects.
+
+## Progress Tracking Standard
+
+All meaningful commits must be documented.
+
+Structure:
+
+- `_progress/<YYYY-MM>/<entry>.md`
+
+Monthly summary:
+
+- `_progress/<YYYY-MM>/README.md` (optional)
+
+Rules:
+
+- One progress file per meaningful commit.
+- Structured format must be followed (see `_progress/README.md`).
+- Documentation for progress lives only under `_progress`.
+- History is append-only.
+
+## Definition of Success (Project-Level)
+
+This project is successful within the challenge when:
+
+- Continuous daily progress is maintained
+- Setup and run instructions remain reproducible
+- Progress remains fully traceable through `_progress`
+- Deliverables remain functional and incrementally stable
+- Documentation quality supports handover and continuation
+
+## Roles
+
+- Owner — Prodromos Sarakinou — scope authority, copyright holder, final acceptance
+- Michael — project management and documentation governance
+- Alexander — UI/UX authority and design standards
+- Codex (AI pair engineer) — implementation support, refactors, and progress discipline
+
+## Legal Notice
+
+All code, documentation, structures, and specifications in this repository are owned by:
+
+Prodromos Sarakinou
+
+Unauthorized redistribution or reuse outside explicit permission is not allowed.
