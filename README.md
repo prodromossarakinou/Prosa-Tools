@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prosa's AI Tools
 
-## Getting Started
+A modular Next.js platform for building and shipping multiple AI-powered tools over time.
+This is part of the **100 Days with AI** challenge.
 
-First, run the development server:
+## Current Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Frontend: Next.js (App Router, SSR-first)
+- Backend: Next.js Route Handlers (API layer for third-party integrations)
+- Database: PostgreSQL (when needed, not wired yet)
+- Language: TypeScript
+- Styling: Tailwind CSS v4
+
+## Project Structure
+
+```text
+src
+├── app
+│   ├── api
+│   │   ├── health/route.ts
+│   │   ├── integrations/route.ts
+│   │   ├── qr/generate/route.ts
+│   │   ├── qr/read/route.ts
+│   │   └── webp-to-png/route.ts
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components
+│   ├── layout
+│   └── providers
+├── features
+│   └── tools
+│       ├── components
+│       └── data
+└── lib
+    ├── config
+    └── server
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Architecture Guidelines
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Keep `app/` focused on routing and page composition only.
+- Put reusable UI in `src/components`.
+- Put feature-specific UI and domain logic in `src/features/<feature>`.
+- Put server-only utilities in `src/lib/server`.
+- Use route handlers in `src/app/api/*` as stable integration entry points.
+- Prefer server components by default; use client components only when interactivity requires it.
+- Introduce providers in `src/components/providers/app-providers.tsx` and keep them centralized.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Backend Direction
 
-## Learn More
+- `/api/health` is a basic operational check endpoint.
+- `/api/integrations` is the entry point placeholder for third-party connectors.
+- `/api/webp-to-png` performs free, server-side WebP to PNG conversion.
+- `/api/qr/generate` creates QR PNG files from text input.
+- `/api/qr/read` decodes QR values from uploaded images.
+- When integrations grow, add provider modules under a dedicated server folder (for example `src/server/integrations`).
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `npm run dev`: run local development server
+- `npm run lint`: run lint checks
+- `npm run build`: production build validation
+- `npm run start`: run production server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Next Steps
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Define a PostgreSQL strategy (Prisma or Drizzle) once persistent data is needed.
+2. Add auth and analytics providers in `app-providers.tsx`.
+3. Add integration adapters under `/api/integrations` when external providers are introduced.
