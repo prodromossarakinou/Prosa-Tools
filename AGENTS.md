@@ -48,6 +48,7 @@ Use these rules for all future edits in this repository to keep implementation q
 - Integration endpoints should be deterministic and loggable
 - Keep third-party adapter logic isolated from route files
 - Never expose secrets in responses or client bundles
+- When a tool is connected to a third-party API, mark its status as `integrated` in `src/features/tools/shared/data/tool-registry.ts`
 
 ## 6) Data and Reliability Rules
 

@@ -1,4 +1,4 @@
-export type ToolStatus = "planned" | "active";
+export type ToolStatus = "planned" | "active" | "integrated";
 
 export type ToolDefinition = {
   id: string;
