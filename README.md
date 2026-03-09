@@ -30,8 +30,16 @@ src
 │   └── providers
 ├── features
 │   └── tools
-│       ├── components
-│       └── data
+│       ├── qr-generator-reader
+│       │   ├── components
+│       │   └── lib
+│       ├── webp-to-png
+│       │   ├── components
+│       │   └── lib
+│       └── shared
+│           ├── components
+│           ├── data
+│           └── types.ts
 └── lib
     ├── config
     └── server
@@ -42,6 +50,8 @@ src
 - Keep `app/` focused on routing and page composition only.
 - Put reusable UI in `src/components`.
 - Put feature-specific UI and domain logic in `src/features/<feature>`.
+- For tools, keep one folder per tool under `src/features/tools/<tool-name>` (e.g. `qr-generator-reader`, `webp-to-png`).
+- Keep shared multi-tool code under `src/features/tools/shared`.
 - Put server-only utilities in `src/lib/server`.
 - Use route handlers in `src/app/api/*` as stable integration entry points.
 - Prefer server components by default; use client components only when interactivity requires it.

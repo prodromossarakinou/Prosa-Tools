@@ -1,5 +1,5 @@
 import { fail } from "@/lib/server/api-response";
-import { generateQrPng } from "@/features/tools/lib/qr-code";
+import { generateQrPng } from "@/features/tools/qr-generator-reader/lib/qr-code";
 
 export async function POST(request: Request) {
   try {

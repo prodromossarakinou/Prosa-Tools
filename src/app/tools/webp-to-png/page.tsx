@@ -1,5 +1,5 @@
 import { AppShell } from "@/components/layout/app-shell";
-import { WebpToPngForm } from "@/features/tools/components/webp-to-png-form";
+import { WebpToPngForm } from "@/features/tools/webp-to-png/components/webp-to-png-form";
 
 export default function WebpToPngPage() {
   return (

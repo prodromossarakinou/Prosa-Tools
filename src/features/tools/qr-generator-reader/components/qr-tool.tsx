@@ -10,6 +10,8 @@ type BarcodeDetectorClass = {
   new (options: { formats: string[] }): BarcodeDetectorLike;
 };
 
+type ReadMode = "none" | "file" | "camera";
+
 declare global {
   interface Window {
     BarcodeDetector?: BarcodeDetectorClass;
@@ -20,6 +22,10 @@ export function QrTool() {
   const [qrText, setQrText] = useState("");
   const [generatorState, setGeneratorState] = useState<"idle" | "loading" | "error">("idle");
   const [generatorError, setGeneratorError] = useState("");
+  const [generatedQrUrl, setGeneratedQrUrl] = useState("");
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  const [readMode, setReadMode] = useState<ReadMode>("none");
 
   const [uploadResult, setUploadResult] = useState("");
   const [uploadState, setUploadState] = useState<"idle" | "loading" | "error">("idle");
@@ -40,8 +46,11 @@ export function QrTool() {
   useEffect(() => {
     return () => {
       stopCamera();
+      if (generatedQrUrl) {
+        URL.revokeObjectURL(generatedQrUrl);
+      }
     };
-  }, []);
+  }, [generatedQrUrl]);
 
   function stopCamera() {
     if (frameRef.current) {
@@ -61,6 +70,16 @@ export function QrTool() {
     }
 
     setCameraState("idle");
+  }
+
+  function resetReadFlow() {
+    stopCamera();
+    setReadMode("none");
+    setUploadResult("");
+    setUploadState("idle");
+    setUploadError("");
+    setCameraResult("");
+    setCameraError("");
   }
 
   async function handleGenerateQr(event: React.FormEvent<HTMLFormElement>) {
@@ -83,14 +102,12 @@ export function QrTool() {
       }
 
       const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const anchor = document.createElement("a");
-      anchor.href = url;
-      anchor.download = "qr-code.png";
-      document.body.appendChild(anchor);
-      anchor.click();
-      anchor.remove();
-      URL.revokeObjectURL(url);
+      const previewUrl = URL.createObjectURL(blob);
+      if (generatedQrUrl) {
+        URL.revokeObjectURL(generatedQrUrl);
+      }
+      setGeneratedQrUrl(previewUrl);
+      setIsPreviewOpen(true);
 
       setGeneratorState("idle");
     } catch (error) {
@@ -140,7 +157,7 @@ export function QrTool() {
     }
   }
 
-  async function startCamera() {
+  async function startCameraScan() {
     if (!cameraSupported || !window.BarcodeDetector) {
       setCameraState("error");
       setCameraError("Live camera scanning is not supported in this browser.");
@@ -190,6 +207,23 @@ export function QrTool() {
     }
   }
 
+  async function handleSelectMode(mode: ReadMode) {
+    if (mode === "camera") {
+      setReadMode("camera");
+      setUploadResult("");
+      setUploadError("");
+      await startCameraScan();
+      return;
+    }
+
+    stopCamera();
+    setCameraResult("");
+    setCameraError("");
+    setReadMode("file");
+  }
+
+  const readCompleted = Boolean(uploadResult || cameraResult);
+
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <section className="space-y-3 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -206,59 +240,148 @@ export function QrTool() {
             disabled={!qrText.trim() || generatorState === "loading"}
             className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
           >
-            {generatorState === "loading" ? "Generating..." : "Generate and Download"}
+            {generatorState === "loading" ? "Generating..." : "Generate Preview"}
           </button>
           {generatorState === "error" ? <p className="text-sm text-rose-700">{generatorError}</p> : null}
         </form>
       </section>
 
-      <section className="space-y-3 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-slate-900">Read QR from Image</h3>
-        <form className="space-y-3" onSubmit={handleReadUpload}>
-          <input
-            name="qr-image"
-            type="file"
-            accept="image/*"
-            className="block w-full text-sm text-slate-700 file:mr-4 file:rounded-md file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white"
-          />
-          <button
-            type="submit"
-            disabled={uploadState === "loading"}
-            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
-          >
-            {uploadState === "loading" ? "Reading..." : "Read from Upload"}
-          </button>
-        </form>
-        {uploadResult ? <p className="text-sm text-emerald-700">Decoded: {uploadResult}</p> : null}
-        {uploadState === "error" ? <p className="text-sm text-rose-700">{uploadError}</p> : null}
-      </section>
+      <section className="space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-slate-900">Read QR Code</h3>
 
-      <section className="space-y-3 rounded-xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-2">
-        <h3 className="text-lg font-semibold text-slate-900">Read QR from Camera</h3>
-        <video ref={videoRef} className="max-h-80 w-full rounded-lg border border-slate-200 bg-slate-100" muted playsInline />
-        <div className="flex gap-3">
+        {readMode === "none" ? (
+          <div className="space-y-3">
+            <p className="text-sm font-medium text-slate-700">Choose: Camera or File</p>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => handleSelectMode("camera")}
+                className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white"
+              >
+                Camera
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelectMode("file")}
+                className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+              >
+                File
+              </button>
+            </div>
+          </div>
+        ) : null}
+
+        {readMode === "file" ? (
+          <form className="space-y-3" onSubmit={handleReadUpload}>
+            <input
+              name="qr-image"
+              type="file"
+              accept="image/*"
+              className="block w-full text-sm text-slate-700 file:mr-4 file:rounded-md file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white"
+            />
+            <button
+              type="submit"
+              disabled={uploadState === "loading"}
+              className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
+            >
+              {uploadState === "loading" ? "Reading..." : "Read from Upload"}
+            </button>
+            <button
+              type="button"
+              onClick={resetReadFlow}
+              className="ml-3 rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+            >
+              Cancel
+            </button>
+          </form>
+        ) : null}
+
+        {readMode === "camera" ? (
+          <div className="space-y-3">
+            <video
+              ref={videoRef}
+              className="max-h-80 w-full rounded-lg border border-slate-200 bg-slate-100"
+              muted
+              playsInline
+            />
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={startCameraScan}
+                disabled={cameraState === "scanning"}
+                className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
+              >
+                {cameraState === "scanning" ? "Scanning..." : "Start Scan"}
+              </button>
+              <button
+                type="button"
+                onClick={stopCamera}
+                className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+              >
+                Stop
+              </button>
+              <button
+                type="button"
+                onClick={resetReadFlow}
+                className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+              >
+                Cancel
+              </button>
+            </div>
+            {!cameraSupported ? (
+              <p className="text-sm text-amber-700">This browser does not support BarcodeDetector camera scanning.</p>
+            ) : null}
+          </div>
+        ) : null}
+
+        {uploadResult ? <p className="text-sm text-emerald-700">Decoded: {uploadResult}</p> : null}
+        {cameraResult ? <p className="text-sm text-emerald-700">Decoded: {cameraResult}</p> : null}
+        {uploadState === "error" ? <p className="text-sm text-rose-700">{uploadError}</p> : null}
+        {cameraState === "error" ? <p className="text-sm text-rose-700">{cameraError}</p> : null}
+
+        {readCompleted ? (
           <button
             type="button"
-            onClick={startCamera}
-            disabled={cameraState === "scanning"}
-            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
-          >
-            {cameraState === "scanning" ? "Scanning..." : "Start Camera Scan"}
-          </button>
-          <button
-            type="button"
-            onClick={stopCamera}
+            onClick={resetReadFlow}
             className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
           >
-            Stop
+            Continue
           </button>
-        </div>
-        {!cameraSupported ? (
-          <p className="text-sm text-amber-700">This browser does not support BarcodeDetector camera scanning.</p>
         ) : null}
-        {cameraResult ? <p className="text-sm text-emerald-700">Decoded: {cameraResult}</p> : null}
-        {cameraState === "error" ? <p className="text-sm text-rose-700">{cameraError}</p> : null}
       </section>
+
+      {isPreviewOpen && generatedQrUrl ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4">
+          <div className="w-full max-w-md space-y-4 rounded-xl bg-white p-6 shadow-xl">
+            <div className="flex items-start justify-between gap-4">
+              <h4 className="text-lg font-semibold text-slate-900">QR Preview</h4>
+              <button
+                type="button"
+                onClick={() => setIsPreviewOpen(false)}
+                className="rounded-md border border-slate-300 px-2.5 py-1 text-sm font-medium text-slate-700"
+              >
+                Close
+              </button>
+            </div>
+            <div className="flex justify-center">
+              <img
+                src={generatedQrUrl}
+                alt="Generated QR preview"
+                className="h-64 w-64 rounded-md border border-slate-200 bg-white"
+              />
+            </div>
+            <div className="flex justify-end">
+              <a
+                href={generatedQrUrl}
+                download="qr-code.png"
+                className="inline-flex rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white"
+              >
+                Download PNG
+              </a>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

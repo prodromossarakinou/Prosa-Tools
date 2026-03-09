@@ -1,4 +1,4 @@
-import type { ToolDefinition } from "@/features/tools/types";
+import type { ToolDefinition } from "@/features/tools/shared/types";
 
 export const toolRegistry: ToolDefinition[] = [
   {

@@ -17,6 +17,7 @@ Provide a free and reliable conversion flow from `.webp` to `.png` without requi
 - Conversion logic is isolated in feature-level backend utility code.
 - Route handler remains thin and delegates core logic.
 - Endpoint returns binary PNG response with download headers.
+- Tool source is isolated under `src/features/tools/webp-to-png`.
 
 ## Outcome
 The WebP to PNG flow is fully functional end-to-end through both browser UI and API usage.

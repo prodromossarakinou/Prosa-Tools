@@ -1,6 +1,6 @@
 import { AppShell } from "@/components/layout/app-shell";
-import { ToolCard } from "@/features/tools/components/tool-card";
-import { toolRegistry } from "@/features/tools/data/tool-registry";
+import { ToolCard } from "@/features/tools/shared/components/tool-card";
+import { toolRegistry } from "@/features/tools/shared/data/tool-registry";
 
 type ToolsOverviewProps = {
   heading: string;

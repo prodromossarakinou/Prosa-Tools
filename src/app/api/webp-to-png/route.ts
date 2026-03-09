@@ -1,5 +1,5 @@
 import { fail } from "@/lib/server/api-response";
-import { convertWebpToPng } from "@/features/tools/lib/webp-to-png";
+import { convertWebpToPng } from "@/features/tools/webp-to-png/lib/webp-to-png";
 
 export async function POST(request: Request) {
   try {

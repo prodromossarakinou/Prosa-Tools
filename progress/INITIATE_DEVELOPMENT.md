@@ -22,6 +22,14 @@ This repository was initialized as **Prosa's AI Tools**, a modular Next.js platf
 ## Documentation and Consistency
 - Added `AGENTS.md` with repository-specific rules to keep architecture, delivery flow, and coding standards consistent.
 - Updated `README.md` to reflect actual project structure and backend direction.
+- Updated architecture rules to enforce tool-per-folder organization under `src/features/tools/<tool-name>`.
+
+## Architecture Evolution
+- Refactored tools into isolated feature folders:
+  - `src/features/tools/qr-generator-reader`
+  - `src/features/tools/webp-to-png`
+- Moved shared tool modules into `src/features/tools/shared` for cross-tool reuse.
+- Updated all app routes and API imports to follow the new structure.
 
 ## Current Direction
 The project is now ready for continuous feature delivery under the 100 Days with AI challenge, with each tool added as an isolated feature while sharing consistent UI, backend conventions, and documentation practices.

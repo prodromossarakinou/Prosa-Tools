@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import type { ToolDefinition } from "@/features/tools/types";
+import type { ToolDefinition } from "@/features/tools/shared/types";
 
 type ToolCardProps = {
   tool: ToolDefinition;

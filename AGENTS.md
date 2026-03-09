@@ -23,6 +23,12 @@ Use these rules for all future edits in this repository to keep implementation q
   - only routes, layout composition, metadata, and page-level orchestration
 - Reusable cross-feature UI belongs in `src/components`
 - Feature-specific code belongs in `src/features/<feature-name>`
+- For tools, use one folder per tool under `src/features/tools/<tool-name>`
+  - Examples:
+    - `src/features/tools/qr-generator-reader`
+    - `src/features/tools/webp-to-png`
+  - Keep each tool self-contained with local `components`, `lib`, and future `types`/`data` if needed
+- Use `src/features/tools/shared` only for code used by multiple tools (registry, shared cards, shared types)
 - Server-only modules belong in `src/lib/server` (or `src/server` if domain grows)
 - Do not place business logic directly inside route handlers or page files
 - Create typed modules first, then consume them from routes/pages
@@ -64,6 +70,9 @@ Use these rules for all future edits in this repository to keep implementation q
 - Use clear names: `tool-card.tsx`, `tool-registry.ts`, `api-response.ts`
 - Do not create ambiguous folders like `helpers` or `misc`
 - Group by domain first, then by technical role
+- For every new tool, create a dedicated folder first:
+  - `src/features/tools/<tool-name>/components`
+  - `src/features/tools/<tool-name>/lib`
 
 ## 9) Delivery Workflow
 

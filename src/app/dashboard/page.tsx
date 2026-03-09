@@ -1,4 +1,4 @@
-import { ToolsOverview } from "@/features/tools/components/tools-overview";
+import { ToolsOverview } from "@/features/tools/shared/components/tools-overview";
 
 export default function DashboardPage() {
   return (
