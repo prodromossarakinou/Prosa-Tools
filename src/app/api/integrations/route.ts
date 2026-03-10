@@ -3,7 +3,8 @@ import { fail, ok } from "@/lib/server/api-response";
 export async function GET() {
   return ok({
     message: "Integrations endpoint is available.",
-    nextStep: "Implement per-provider handlers under src/server/integrations.",
+    availableRoutes: ["/api/integrations/instagram/download"],
+    nextStep: "Add per-provider handlers under /api/integrations/<provider>/<action>.",
   });
 }
 

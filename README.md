@@ -57,6 +57,7 @@ Current scope includes:
 - SSR-first frontend with Next.js App Router
 - Backend route handlers for internal utilities and future integrations
 - Scalable per-tool feature architecture
+- Integrated 3rd-party API tools when needed (marked as `integrated` in tool registry)
 
 Each project in the challenge must maintain its own:
 
@@ -94,6 +95,25 @@ Rules:
 - Structured format must be followed (see `_progress/README.md`).
 - Documentation for progress lives only under `_progress`.
 - History is append-only.
+
+## Integration Configuration (Instagram Downloader)
+
+The Instagram downloader currently uses:
+
+- Primary: `instaloader` (local Python resolver)
+- Backup (reel/video): `https://instagram-video-downloader-mu.vercel.app/api/video`
+
+Local requirement:
+
+```bash
+python3 -m pip install --user instaloader
+```
+
+- No API key is required.
+- Optional override:
+  - `INSTAGRAM_PROVIDER_URL` (if you want to switch provider endpoint later)
+- Provider logic is implemented in:
+  - `src/features/tools/instagram-downloader/lib/instagram-provider.ts`
 
 ## Definition of Success (Project-Level)
 

@@ -19,9 +19,10 @@ export const toolRegistry: ToolDefinition[] = [
   },
   {
     id: "tool-03",
-    name: "Data Extractor",
-    summary: "Parse unstructured text and export clean JSON for downstream automation.",
-    status: "planned",
-    category: "Automation",
+    name: "Instagram Post/Reel Downloader",
+    summary: "Download media from Instagram URLs through an integrated third-party provider.",
+    status: "integrated",
+    category: "Media",
+    href: "/tools/instagram-downloader",
   },
 ];

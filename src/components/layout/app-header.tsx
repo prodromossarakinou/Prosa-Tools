@@ -7,6 +7,7 @@ const links = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/tools/webp-to-png", label: "WebP Tool" },
   { href: "/tools/qr", label: "QR Tool" },
+  { href: "/tools/instagram-downloader", label: "Instagram Tool" },
   { href: "/api/health", label: "Health API" },
 ] as const;
 
