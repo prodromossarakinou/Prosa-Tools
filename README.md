@@ -109,6 +109,27 @@ Local requirement:
 python3 -m pip install --user instaloader
 ```
 
+## Supabase Auth Setup
+
+Environment variables (`.env.local`):
+
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+
+Routes implemented:
+
+- `/auth/login?provider=google`
+- `/auth/callback`
+- `/auth/signout`
+- `/sign-in` (public entry; all protected app routes redirect here when unauthenticated)
+
+Required provider setup:
+
+- In Google OAuth, authorized redirect URI should be:
+  - `https://lyqydepxkoahsiynxrqy.supabase.co/auth/v1/callback`
+- In Supabase Auth URL configuration, add app callback redirect:
+  - `http://localhost:3001/auth/callback`
+
 - No API key is required.
 - Optional override:
   - `INSTAGRAM_PROVIDER_URL` (if you want to switch provider endpoint later)

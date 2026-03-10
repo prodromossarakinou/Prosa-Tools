@@ -62,7 +62,7 @@ export function WebpToPngForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="space-y-1">
         <h3 className="text-lg font-semibold text-slate-900">WebP to PNG Converter</h3>
         <p className="text-sm text-slate-600">Upload a single WebP image and download a PNG version.</p>
@@ -88,7 +88,7 @@ export function WebpToPngForm() {
       <button
         type="submit"
         disabled={!canSubmit}
-        className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
+        className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400 sm:w-auto"
       >
         {state === "uploading" ? "Converting..." : "Convert and Download"}
       </button>

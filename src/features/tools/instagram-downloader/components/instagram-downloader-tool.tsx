@@ -11,7 +11,8 @@ type ApiSuccess = {
   success: true;
   data: {
     source: string;
-    status: "integrated";
+    status: "active";
+    isIntegrated: true;
     provider: string;
     media: MediaItem[];
   };
@@ -62,7 +63,7 @@ export function InstagramDownloaderTool() {
 
   return (
     <div className="space-y-6">
-      <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <h3 className="text-lg font-semibold text-slate-900">Instagram Downloader</h3>
         <p className="text-sm text-slate-600">
           Paste an Instagram post or reel URL and resolve downloadable media through the integrated third-party API.
@@ -78,7 +79,7 @@ export function InstagramDownloaderTool() {
         <button
           type="submit"
           disabled={isLoading}
-          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
+          className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400 sm:w-auto"
         >
           {isLoading ? "Resolving..." : "Fetch Media"}
         </button>
@@ -86,7 +87,7 @@ export function InstagramDownloaderTool() {
       </form>
 
       {media.length ? (
-        <section className="space-y-3 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="space-y-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
           <h4 className="text-base font-semibold text-slate-900">Resolved Media</h4>
           <ul className="space-y-3">
             {media.map((item, index) => (

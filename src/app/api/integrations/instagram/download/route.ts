@@ -18,7 +18,8 @@ export async function POST(request: Request) {
 
     return ok({
       source: "instagram",
-      status: "integrated",
+      status: "active",
+      isIntegrated: true,
       ...result,
     });
   } catch (error) {

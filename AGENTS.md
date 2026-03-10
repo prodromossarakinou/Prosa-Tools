@@ -48,7 +48,7 @@ Use these rules for all future edits in this repository to keep implementation q
 - Integration endpoints should be deterministic and loggable
 - Keep third-party adapter logic isolated from route files
 - Never expose secrets in responses or client bundles
-- When a tool is connected to a third-party API, mark its status as `integrated` in `src/features/tools/shared/data/tool-registry.ts`
+- When a tool is connected to a third-party API, keep `status: "active"` and set `isIntegrated: true` in `src/features/tools/shared/data/tool-registry.ts`
 
 ## 6) Data and Reliability Rules
 
@@ -98,3 +98,8 @@ For each meaningful feature:
 - This repository is part of the 100 Days Challenge and uses `_progress` for commit-backed tracking.
 - For each meaningful commit, add one English markdown entry under `_progress/<YYYY-MM>/`.
 - Do not use `progress/` or other folders for challenge progress logs.
+
+## 12) Environment File Policy
+
+- Do not read, write, or modify `.env`, `.env.local`, or any `.env*` file unless the user explicitly asks in the current turn.
+- When environment values are missing, ask the user to set/update them manually instead of editing env files directly.

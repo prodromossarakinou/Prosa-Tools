@@ -9,7 +9,6 @@ type ToolCardProps = {
 const statusStyles: Record<ToolDefinition["status"], string> = {
   planned: "bg-amber-100 text-amber-800",
   active: "bg-emerald-100 text-emerald-800",
-  integrated: "bg-sky-100 text-sky-800",
 };
 
 export function ToolCard({ tool }: ToolCardProps) {
@@ -17,9 +16,14 @@ export function ToolCard({ tool }: ToolCardProps) {
     <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-3 flex items-center justify-between gap-4">
         <p className="text-sm font-medium text-slate-500">{tool.category}</p>
-        <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${statusStyles[tool.status]}`}>
-          {tool.status}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${statusStyles[tool.status]}`}>
+            {tool.status}
+          </span>
+          {tool.isIntegrated ? (
+            <span className="rounded-full bg-sky-100 px-2.5 py-1 text-xs font-semibold text-sky-800">integrated</span>
+          ) : null}
+        </div>
       </div>
       <h3 className="text-lg font-semibold text-slate-900">{tool.name}</h3>
       <p className="mt-2 text-sm leading-6 text-slate-600">{tool.summary}</p>

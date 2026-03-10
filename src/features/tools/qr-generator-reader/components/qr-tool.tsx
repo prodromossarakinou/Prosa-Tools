@@ -226,7 +226,7 @@ export function QrTool() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <section className="space-y-3 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="space-y-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <h3 className="text-lg font-semibold text-slate-900">Generate QR Code</h3>
         <form className="space-y-3" onSubmit={handleGenerateQr}>
           <textarea
@@ -238,7 +238,7 @@ export function QrTool() {
           <button
             type="submit"
             disabled={!qrText.trim() || generatorState === "loading"}
-            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
+            className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400 sm:w-auto"
           >
             {generatorState === "loading" ? "Generating..." : "Generate Preview"}
           </button>
@@ -246,24 +246,24 @@ export function QrTool() {
         </form>
       </section>
 
-      <section className="space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="space-y-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <h3 className="text-lg font-semibold text-slate-900">Read QR Code</h3>
 
         {readMode === "none" ? (
           <div className="space-y-3">
             <p className="text-sm font-medium text-slate-700">Choose: Camera or File</p>
-            <div className="flex gap-3">
+            <div className="grid gap-3 sm:grid-cols-2">
               <button
                 type="button"
                 onClick={() => handleSelectMode("camera")}
-                className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white"
+                className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white"
               >
                 Camera
               </button>
               <button
                 type="button"
                 onClick={() => handleSelectMode("file")}
-                className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+                className="w-full rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
               >
                 File
               </button>
@@ -279,20 +279,22 @@ export function QrTool() {
               accept="image/*"
               className="block w-full text-sm text-slate-700 file:mr-4 file:rounded-md file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white"
             />
-            <button
-              type="submit"
-              disabled={uploadState === "loading"}
-              className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
-            >
-              {uploadState === "loading" ? "Reading..." : "Read from Upload"}
-            </button>
-            <button
-              type="button"
-              onClick={resetReadFlow}
-              className="ml-3 rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
-            >
-              Cancel
-            </button>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <button
+                type="submit"
+                disabled={uploadState === "loading"}
+                className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
+              >
+                {uploadState === "loading" ? "Reading..." : "Read from Upload"}
+              </button>
+              <button
+                type="button"
+                onClick={resetReadFlow}
+                className="w-full rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         ) : null}
 
@@ -304,26 +306,26 @@ export function QrTool() {
               muted
               playsInline
             />
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3">
               <button
                 type="button"
                 onClick={startCameraScan}
                 disabled={cameraState === "scanning"}
-                className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400"
+                className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400 sm:w-auto"
               >
                 {cameraState === "scanning" ? "Scanning..." : "Start Scan"}
               </button>
               <button
                 type="button"
                 onClick={stopCamera}
-                className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+                className="w-full rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 sm:w-auto"
               >
                 Stop
               </button>
               <button
                 type="button"
                 onClick={resetReadFlow}
-                className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+                className="w-full rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 sm:w-auto"
               >
                 Cancel
               </button>
@@ -343,7 +345,7 @@ export function QrTool() {
           <button
             type="button"
             onClick={resetReadFlow}
-            className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+            className="w-full rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 sm:w-auto"
           >
             Continue
           </button>
@@ -352,7 +354,7 @@ export function QrTool() {
 
       {isPreviewOpen && generatedQrUrl ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4">
-          <div className="w-full max-w-md space-y-4 rounded-xl bg-white p-6 shadow-xl">
+          <div className="w-full max-w-md space-y-4 rounded-xl bg-white p-4 shadow-xl sm:p-6">
             <div className="flex items-start justify-between gap-4">
               <h4 className="text-lg font-semibold text-slate-900">QR Preview</h4>
               <button
@@ -367,7 +369,7 @@ export function QrTool() {
               <img
                 src={generatedQrUrl}
                 alt="Generated QR preview"
-                className="h-64 w-64 rounded-md border border-slate-200 bg-white"
+                className="h-52 w-52 rounded-md border border-slate-200 bg-white sm:h-64 sm:w-64"
               />
             </div>
             <div className="flex justify-end">
